@@ -10,10 +10,6 @@
    [[:db/add
      (d/tempid :db.part/user)
      :db/doc
-     "test"]
-    [:db/add
-     (d/tempid :db.part/user)
-     :db/doc
      "Hello world"]]))
 
 ;; transaction result is data
@@ -22,8 +18,8 @@ tx-result
 (def dbval (d/db conn))
 
 ;; query input is data
-(def q-result (d/q '[:find ?e ?f
-                     :where [?e :db/doc ?f]]
+(def q-result (d/q '[:find ?e
+                     :where [?e :db/doc "Hello world"]]
                    dbval))
 
 ;; query result is data
@@ -35,10 +31,7 @@ q-result
 ;; entities are lazy, so...
 (d/touch ent)
 
-
 ;; schema itself is data
 (def doc-ent (d/entity dbval :db/doc))
 
 (d/touch doc-ent)
-
-(map #(d/touch ( d/entity dbval %)) (first q-result))
