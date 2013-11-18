@@ -27,6 +27,18 @@
    (fn [[story]] [:db/add new-user-id :user/upVotes (:db/id story)])
    all-stories))
 
+
+(defpp new-address-id (d/tempid :db.part/address))
+(defpp new-address
+  "Transaction data for a new address"
+  [{:db/id new-address-id
+    :address/street "20 Walnut"
+    :user/city "Wallingford"
+    :user/state "PA"}])
+
+
+(d/transact conn new-address)
+
 (defpp new-user
   "Transaction data for a new user"
   [{:db/id new-user-id
