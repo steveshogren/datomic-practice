@@ -28,16 +28,29 @@
    all-stories))
 
 
-(defpp new-address-id (d/tempid :db.part/address))
+(defpp new-address-id (d/tempid :db.part/user))
+(defpp new-address-id1 (d/tempid :db.part/user))
 (defpp new-address
   "Transaction data for a new address"
   [{:db/id new-address-id
     :address/street "20 Walnut"
-    :user/city "Wallingford"
-    :user/state "PA"}])
-
+    :address/city "Wallingford"
+    :address/state "PA"}
+   { :db/id new-address-id1
+    :address/street "21 Walnut"
+    :address/city "Wallingford"
+    :address/state "PA"}])
 
 (d/transact conn new-address)
+
+(defpp all-addresses-in-state
+  "All addresses"
+  (d/q '[:find ?e ?s
+         :where
+         [?e :address/state ?s]
+         [(= ?s "PA")]]
+       (d/db conn)))
+
 
 (defpp new-user
   "Transaction data for a new user"

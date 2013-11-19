@@ -1,3 +1,20 @@
+;; addresses
+[{:db/id #db/id[:db.part/db]
+  :db/ident :address/street
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+ {:db/id #db/id[:db.part/db]
+  :db/ident :address/city
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+ {:db/id #db/id[:db.part/db]
+  :db/ident :address/state
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}]
+
 ;; stories
 [{:db/id #db/id[:db.part/db]
   :db/ident :story/title
