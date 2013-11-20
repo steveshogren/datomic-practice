@@ -44,13 +44,26 @@
 (d/transact conn new-address)
 
 (defpp all-addresses-in-state
-  "All addresses"
-  (d/q '[:find ?e ?s
+  (d/q '[:find ?e ?street ?city 
+         :where
+         [?e :address/state "PA"]
+         [?e :address/city ?city]
+         [?e :address/street ?street]]
+       (d/db conn)))
+;; includes the state in the return set
+(defpp all-addresses-in-state
+  (d/q '[:find ?e ?street ?city ?s
          :where
          [?e :address/state ?s]
+         [?e :address/city ?city]
+         [?e :address/street ?street]
          [(= ?s "PA")]]
        (d/db conn)))
 
+;; could this just be:
+;; [:find ?e ?s :where [?e :address/state "PA"]]
+;; yes, if you dont care about having that field
+;; no if you want it included in the set
 
 (defpp new-user
   "Transaction data for a new user"
