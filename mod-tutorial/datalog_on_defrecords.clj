@@ -38,3 +38,22 @@
          [$shipments ?supplier]]
        (maps->rel suppliers [:number :name :city])
        (maps->rel shipments [:supplier])))
+
+;; Appears to let joins happen over any disparate data
+;; using given keys, e.g. the ?part number here, we
+;; join by referencing it in a traditional join table
+;; and "calling out" the value in each set using the same
+;; named value.
+;; Also, each vec of the :where here below uses a $x apparently
+;; to match to a given set of data
+(defpp
+  join-on-defrecord-order
+  (d/q '[:find ?name
+         :in $suppliers $parts $shipments 
+         :where
+         [$suppliers ?supplier "Paris"]
+         [$parts ?part ?name]
+         [$shipments ?supplier ?part]]
+       (maps->rel suppliers [:number :city])
+       (maps->rel parts [:number :name])
+       (maps->rel shipments [:supplier :part])))
